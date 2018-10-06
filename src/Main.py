@@ -29,6 +29,7 @@ def main():
         sys.exit()
 
 def usage():
+    """ Prints usage information """
     print('main.py -d <device> -b <baud_rate>')
 
 def parse_arguments():
