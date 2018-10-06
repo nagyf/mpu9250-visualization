@@ -29,9 +29,15 @@ class Plotter:
             axis.figure.canvas.draw()
 
     def min_value(self, values):
+        if(len(values) == 0):
+            return -1
+
         return numpy.amin([numpy.amin(value) for value in values])
 
     def max_value(self, values):
+        if(len(values) == 0):
+            return 1
+        
         return numpy.amax([numpy.amax(value) for value in values])
 
     # The animation loop
