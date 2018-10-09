@@ -26,7 +26,6 @@ class Plotter:
             axis.set_ylim(self.min_value(values), self.max_value(values))
             ys = list(map(lambda value: value[idx], values))
             lines[idx].set_data(xs, ys)
-            axis.figure.canvas.draw()
 
     def min_value(self, values):
         if(len(values) == 0):
@@ -40,11 +39,11 @@ class Plotter:
         
         return numpy.amax([numpy.amax(value) for value in values])
 
-    # The animation loop
     def animate(self, i):
         self.draw_lines(self.axes[0], self.accel_lines, self.data.get_acceleration())
         self.draw_lines(self.axes[1], self.gyro_lines, self.data.get_gyro())
         self.draw_lines(self.axes[2], self.mag_lines, self.data.get_mag())
+        self.fig.canvas.draw()
 
     def start(self):
         plt.show()
