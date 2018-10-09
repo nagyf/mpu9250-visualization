@@ -1,9 +1,10 @@
-import serial
 import sys
 import getopt
 from src.DataReaderThread import DataReaderThread
 from src.SensorData import SensorData
 from src.Plotter import Plotter
+from src.SerialDataInput import SerialDataInput
+from src.CsvDataOutput import CsvDataOutput
 
 def main():
     """
@@ -12,10 +13,11 @@ def main():
     The reading and the drawing is done on separate threads. Communication between the threads is 
     done through the SensorData class.
     """
-    device, baud = parse_arguments()
-    port = serial.Serial(device, baud) # Connect to the device on serial port
+    device, baud, outfile = parse_arguments()
     data = SensorData()
-    thread = DataReaderThread(port, data)
+    input = SerialDataInput(device, baud)
+    output = CsvDataOutput(outfile) if outfile else None
+    thread = DataReaderThread(input, output, data)
     plotter = Plotter(data)
 
     try:
@@ -30,20 +32,21 @@ def main():
 
 def usage():
     """ Prints usage information """
-    print('main.py -d <device> -b <baud_rate>')
+    print('main.py -d <device> -b <baud_rate> -o <output_file>')
 
 def parse_arguments():
     """
     Parses command line arguments, returns a tuple with the device name and the baud rate.
     """
     try:
-      opts, args = getopt.getopt(sys.argv[1:],'hd:b:',['device=','baud='])
+      opts, args = getopt.getopt(sys.argv[1:],'hd:b:o:',['device=','baud=', 'output='])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
 
     device = None
     baud = 115200
+    outfile = None
     for o, a in opts:
         if o in ('-h', '--help'):
             usage()
@@ -52,7 +55,9 @@ def parse_arguments():
             device = a
         elif o in ('-b', '--baud'):
             baud = a
+        elif o in ('-o', '--output'):
+            outfile = a
         else:
             assert False, 'unhandled option'
     
-    return (device, baud)
+    return (device, baud, outfile)

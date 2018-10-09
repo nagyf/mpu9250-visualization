@@ -10,10 +10,11 @@ class DataReaderThread(threading.Thread):
     must contain the magnetometer data.
     """
 
-    def __init__(self, port, data):
+    def __init__(self, dataInput, dataOutput, data):
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
-        self.port = port
+        self.input = dataInput
+        self.output = dataOutput
         self.data = data
 
     def stop(self):
@@ -28,7 +29,10 @@ class DataReaderThread(threading.Thread):
         """ Read values from the sensor until the thread is stopped """
         while(not self.stopped()):
             try:
-                values = read_values(self.port)
+                values = self.input.read()
+                if self.output:
+                    self.output.write(values)
+                
                 self.data.add_acceleration((values[0], values[1], values[2]))
                 self.data.add_gyro((values[3], values[4], values[5]))
                 self.data.add_mag((values[6], values[7], values[8]))
@@ -36,11 +40,4 @@ class DataReaderThread(threading.Thread):
             except (ValueError, IndexError) as e:
                 # TODO don't know why it's happening
                 # Sometimes I get invalid data from the sensor
-                print('WARNING: ', e)
-
-def read_values(port):
-    """ Reads sensor data and parses it """
-    raw_line = port.readline()
-    line = raw_line.decode('utf8').strip()
-    values = map(lambda x: float(x), line.split(';'))
-    return list(values)
+                print('WARNING, invalid data received: ', e)
