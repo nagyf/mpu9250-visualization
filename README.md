@@ -1,6 +1,6 @@
 Make sure you have the following installed:
 
-- python 3.6
+- python 3.x
 - virtualenv
 
 Execute these commands to run the application:
