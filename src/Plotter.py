@@ -14,7 +14,7 @@ class Plotter:
         self.accel_lines = self.create_lines(self.axes[0], 3)
         self.gyro_lines = self.create_lines(self.axes[1], 3)
         self.mag_lines = self.create_lines(self.axes[2], 3)
-        self.ani = animation.FuncAnimation(self.fig, self.animate, interval=100, blit=False)
+        self.ani = animation.FuncAnimation(self.fig, self.animate, interval=10, blit=False)
 
     def create_lines(self, axis, num = 3):
         return [axis.plot([], [])[0] for i in range(0, num)]
