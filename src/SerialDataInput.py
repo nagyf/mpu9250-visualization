@@ -11,5 +11,7 @@ class SerialDataInput:
         """ Reads sensor data and parses it """
         raw_line = self.port.readline()
         line = raw_line.decode('utf8').strip()
-        values = map(lambda x: float(x), line.split(';'))
-        return list(values)
+        splitted = line.split(';')
+        values = list(map(float, splitted[:-2])) # The sensor data
+        values += list((int(splitted[-2]), float(splitted[-1]))) # The elapsed time and the temperature
+        return values
