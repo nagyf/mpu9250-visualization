@@ -9,6 +9,13 @@ class SensorData:
         self.acceleration = []
         self.mag = []
         self.ypr = (0.0, 0.0, 0.0)
+
+    def add_acc_gyro_mag_ypr(self, acc, gyro, mag, ypr):
+        with self.lock:
+            self.acceleration.append(acc)
+            self.gyro.append(gyro)
+            self.mag.append(mag)
+            self.ypr = ypr
     
     def add_gyro(self, data):
         with self.lock:

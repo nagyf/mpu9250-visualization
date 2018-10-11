@@ -34,11 +34,12 @@ class DataReaderThread(threading.Thread):
                 if self.output:
                     self.output.write(values)
                 
-                self.data.add_acceleration((values[0], values[1], values[2]))
-                self.data.add_gyro((values[3], values[4], values[5]))
-                self.data.add_mag((values[6], values[7], values[8]))
-                self.data.set_ypr((values[9], values[10], values[11]))
-
+                acceleration = (values[0], values[1], values[2])
+                gyro = (values[3], values[4], values[5])
+                mag = (values[6], values[7], values[8])
+                ypr = (values[9], values[10], values[11])
+                self.data.add_acc_gyro_mag_ypr(acceleration, gyro, mag, ypr)
+                
                 time.sleep(0.05)
             except (ValueError, IndexError) as e:
                 # TODO don't know why it's happening
