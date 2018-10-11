@@ -8,6 +8,7 @@ class SensorData:
         self.gyro = []
         self.acceleration = []
         self.mag = []
+        self.ypr = (0.0, 0.0, 0.0)
     
     def add_gyro(self, data):
         with self.lock:
@@ -32,3 +33,11 @@ class SensorData:
     def get_mag(self):
         with self.lock:
             return list(self.mag)
+
+    def set_ypr(self, ypr):
+        with self.lock:
+            self.ypr = ypr
+
+    def get_ypr(self):
+        with self.lock:
+            return self.ypr

@@ -37,22 +37,10 @@ class DataReaderThread(threading.Thread):
                 self.data.add_acceleration((values[0], values[1], values[2]))
                 self.data.add_gyro((values[3], values[4], values[5]))
                 self.data.add_mag((values[6], values[7], values[8]))
-
-                # print(yawPitchRoll(values[0], values[1], values[2]))
+                self.data.set_ypr((values[9], values[10], values[11]))
 
                 time.sleep(0.05)
             except (ValueError, IndexError) as e:
                 # TODO don't know why it's happening
                 # Sometimes I get invalid data from the sensor
                 print('WARNING, invalid data received: ', e)
-
-def yawPitchRoll(accX, accY, accZ):
-    """ 
-    Calculate yaw-pitch-roll based on acceleration data.
-
-    TODO: are these calculations valid?
-    """
-    yaw = 180 * numpy.arctan(accZ/numpy.sqrt(accX*accX + accZ*accZ))/numpy.pi
-    pitch = 180 * numpy.arctan(accX/numpy.sqrt(accY*accY + accY*accY))/numpy.pi
-    roll = 180 * numpy.arctan(accY/numpy.sqrt(accX*accX + accZ*accZ))/numpy.pi
-    return (yaw, pitch, roll)
