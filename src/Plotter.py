@@ -21,6 +21,12 @@ class Plotter:
 
     def configure(self):
         self.fig.suptitle('MPU 9250')
+        plt.subplots_adjust(wspace=.5, hspace=.5)
+        self.axes[0].set_title('Acceleration')
+        self.axes[1].set_title('Gyroscope')
+        self.axes[2].set_title('Magnetometer')
+        for ax in self.axes:
+            ax.legend()
 
     def animate(self, i):
         self.draw_lines(self.axes[0], self.accel_lines, self.data.get_acceleration())
@@ -29,7 +35,8 @@ class Plotter:
         self.fig.canvas.draw()
 
     def create_lines(self, ax, num = 3):
-        return [ax.plot([], [])[0] for i in range(0, num)]
+        labels = ['x', 'y', 'z']
+        return [ax.plot([], [], label=labels[i])[0] for i in range(0, num)]
 
     def draw_lines(self, ax, lines, values):
         xs = list(range(0, len(values)))
