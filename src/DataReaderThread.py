@@ -38,7 +38,7 @@ class DataReaderThread(threading.Thread):
                 self.data.add_gyro((values[3], values[4], values[5]))
                 self.data.add_mag((values[6], values[7], values[8]))
 
-                print(yawPitchRoll(values[0], values[1], values[2]))
+                # print(yawPitchRoll(values[0], values[1], values[2]))
 
                 time.sleep(0.05)
             except (ValueError, IndexError) as e:
