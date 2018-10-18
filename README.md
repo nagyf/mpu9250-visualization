@@ -21,9 +21,9 @@ The command is: `python main.py -d <device_id> -b <data_rate> -o <test_csv_file>
 
 Where: 
 
-- `device_id` is the name of the serial port on which the arduino is connected
+- `device_id` is the name of the serial port on which the arduino is connected. The easiest way to find it out is to launch the Arduino IDE and in the you search for it `Tools -> Port` menu, it will be something like `/dev/cu.usbmodem14411` on a Mac.
 - `baud_rate` is the data rate used to communicate on the serial port
-- `test_csv_file` is the filename of a file to write data to (this parameter is optional). The easiest way to find it out is to launch the Arduino IDE and in the you search for it `Tools -> Port` menu, it will be something like `/dev/cu.usbmodem14411` on a Mac.
+- `test_csv_file` is the filename of a file to write data to (this parameter is optional).
 
 Examples:
 
